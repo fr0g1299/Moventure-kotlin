@@ -9,13 +9,11 @@ interface MovieApiService {
 
     @GET("discover/movie")
     suspend fun fetchDiscoverMovie(
-        @Query("api_key") apiKey: String = BuildConfig.apiKey,
-        @Query("include_adult") includeAdult: Boolean = true
+        @Query("api_key") apiKey: String = BuildConfig.apiKey
     ): MovieDTO
 
     @GET("trending/movie/week")
     suspend fun fetchTrendingMovie(
-        @Query("api_key") apiKey: String = BuildConfig.apiKey,
-        @Query("include_adult") includeAdult: Boolean = true
+        @Query("api_key") apiKey: String = BuildConfig.apiKey
     ): MovieDTO
 }

@@ -9,8 +9,9 @@ import com.fr0g.moventure.utils.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class MovieRepository(
+class MovieRepository @Inject constructor(
     private val movieApiService: MovieApiService,
     private val apiMapper: ApiMapper<List<Movie>, MovieDTO>
     ) : MovieRepository {
