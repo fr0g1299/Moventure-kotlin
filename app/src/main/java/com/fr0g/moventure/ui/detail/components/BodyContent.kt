@@ -46,18 +46,19 @@ fun DetailBodyContent(
     isMovieLoading: Boolean,
     fetchMovies: () -> Unit,
     onMovieClick: (Int) -> Unit,
+    onHomeClick: () -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = 32.dp)
     ) {
-         // just testing
         item {
             DetailTopContent(
                 movieDetail = movieDetail,
-                onBackClick = {}
+                onHomeClick = onHomeClick
             )
         }
+
         // Title & Overview Section
         item {
             Column(
@@ -76,11 +77,11 @@ fun DetailBodyContent(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Genres Row
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    movieDetail.genres.forEach { genre ->
+                    items(movieDetail.genres) { genre ->
                         GenreChip(text = genre.name ?: "")
                     }
                 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +22,6 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.fr0g.moventure.home.domain.models.Movie
-import com.fr0g.moventure.ui.home.itemSpacing
 
 @Composable
 fun MovieCoverImage(
@@ -36,7 +36,7 @@ fun MovieCoverImage(
 
     Box(
         modifier = modifier.size(width = 150.dp, height = 250.dp)
-            .padding(itemSpacing)
+            .padding(8.dp)
             .clickable { onMovieClick(movie.id) }
     ) {
         AsyncImage(
@@ -50,11 +50,11 @@ fun MovieCoverImage(
             contentScale = ContentScale.Crop,
             onError = { it.result.throwable.printStackTrace() }
         )
-        MovieCard(
-            shapes = CircleShape,
+        Card(
+            shape = CircleShape,
             modifier = Modifier.align(Alignment.TopEnd)
                 .padding(4.dp)
-        ){
+        ) {
             Icon(
                 imageVector = Icons.Default.Bookmark,
                 contentDescription = null,

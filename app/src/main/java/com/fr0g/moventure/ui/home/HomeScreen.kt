@@ -5,10 +5,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
@@ -33,15 +34,10 @@ import com.fr0g.moventure.ui.home.components.TopContent
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
 
-val defaultPadding = 16.dp
-val itemSpacing = 8.dp
-
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    //homeViewModel: HomeViewModel,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    //hiltViewModel: HomeViewModel = hiltViewModel(),
     onMovieClick: (id: Int) -> Unit
 ) {
     var isAutoScrolling by remember {
@@ -80,48 +76,50 @@ fun HomeScreen(
             )
         }
         AnimatedVisibility(visible = !state.isLoading && state.error == null) {
-            BoxWithConstraints(modifier = Modifier.fillMaxSize().statusBarsPadding()) {
-                val boxHeight = maxHeight
-                val bodyItemHeight = boxHeight * .54f
+            BodyContent(
+                modifier = Modifier.fillMaxSize(), // Maybe add statusBarsPadding if it breaks
+                discoverMovies = state.discoverMovies,
+                trendingMovies = state.trendingMovies,
+                onMovieClick = onMovieClick,
 
-                val cardWidth = 220.dp
-
-                HorizontalPager(
-                    state = pagerState,
-                    pageSize = PageSize.Fixed(200.dp),
-                    snapPosition = SnapPosition.Center,
-                ) { page ->
-
-                    // Makes the center item slightly larger
-                    val pageOffset = (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
-                    val scale = lerp(
-                        start = 0.85f,
-                        stop = 1.00f,
-                        fraction = 1f - pageOffset.absoluteValue.coerceIn(0f, 1f)
-                    )
-
-                    Box(
+                topContent = {
+                    Column(
                         modifier = Modifier
-                            .graphicsLayer {
-                                scaleX = scale
-                                scaleY = scale
-                                alpha = scale
-                            }
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
                     ) {
-                        TopContent(
-                            modifier = Modifier.align(Alignment.Center),
-                            movie = state.discoverMovies[page],
-                            onMovieClick = { onMovieClick(it) }
-                        )
+                        HorizontalPager(
+                            state = pagerState,
+                            pageSize = PageSize.Fixed(200.dp),
+                            snapPosition = SnapPosition.Center,
+                            modifier = Modifier.height(400.dp)
+                        ) { page ->
+                            val pageOffset =
+                                (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+                            val scale = lerp(
+                                start = 0.85f,
+                                stop = 1.00f,
+                                fraction = 1f - pageOffset.absoluteValue.coerceIn(0f, 1f)
+                            )
+
+                            Box(
+                                modifier = Modifier
+                                    .graphicsLayer {
+                                        scaleX = scale
+                                        scaleY = scale
+                                        alpha = scale
+                                    }
+                            ) {
+                                TopContent(
+                                    modifier = Modifier.align(Alignment.Center),
+                                    movie = state.discoverMovies[page],
+                                    onMovieClick = { onMovieClick(it) }
+                                )
+                            }
+                        }
                     }
                 }
-                BodyContent(
-                    modifier = Modifier.align(Alignment.BottomCenter).heightIn(max = bodyItemHeight),
-                    discoverMovies = state.discoverMovies,
-                    trendingMovies = state.trendingMovies,
-                    onMovieClick = onMovieClick
-                )
-            }
+            )
         }
     }
     LoadingView(isLoading = state.isLoading)

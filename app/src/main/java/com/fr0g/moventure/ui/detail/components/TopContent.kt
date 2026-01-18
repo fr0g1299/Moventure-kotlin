@@ -21,7 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,7 +41,7 @@ import coil3.compose.AsyncImage
 fun DetailTopContent(
     modifier: Modifier = Modifier,
     movieDetail: Detail,
-    onBackClick: () -> Unit
+    onHomeClick: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -112,14 +112,14 @@ fun DetailTopContent(
 
         // Back Button
         IconButton(
-            onClick = onBackClick,
+            onClick = onHomeClick,
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(top = 48.dp, start = 16.dp)
+                .padding(top = 16.dp, start = 16.dp)
                 .background(Color.Black.copy(alpha = 0.4f), CircleShape)
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                imageVector = Icons.Filled.Home,
                 contentDescription = "Back",
                 tint = Color.White
             )

@@ -1,8 +1,10 @@
 package com.fr0g.moventure.ui.home.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,8 +18,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,13 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.fr0g.moventure.home.domain.models.Movie
-import com.fr0g.moventure.ui.home.defaultPadding
 
 @Composable
 fun TopContent(modifier: Modifier = Modifier, movie: Movie, onMovieClick: (id: Int) -> Unit) {
@@ -47,82 +47,92 @@ fun TopContent(modifier: Modifier = Modifier, movie: Movie, onMovieClick: (id: I
             .clickable { onMovieClick(movie.id) },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            model = imgRequest,
-            contentDescription = null,
-            modifier = Modifier
-                .height(300.dp)
-                .aspectRatio(2f / 3f)
-                .clip(RoundedCornerShape(12.dp)),
-            contentScale = ContentScale.Crop,
-            onError = { it.result.throwable.printStackTrace() }
-        )
+        // Poster
+        Box(contentAlignment = Alignment.BottomStart) {
+            AsyncImage(
+                model = imgRequest,
+                contentDescription = null,
+                modifier = Modifier
+                    .height(300.dp)
+                    .aspectRatio(2f / 3f)
+                    .clip(RoundedCornerShape(16.dp)),
+                contentScale = ContentScale.Crop,
+                onError = { it.result.throwable.printStackTrace() }
+            )
 
+            // Rating Badge Overlay
+            MovieRatingBadge(
+                rating = movie.voteAverage,
+                modifier = Modifier.padding(12.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Text Details
         MovieDetail(
-            rating = movie.voteAverage,
             title = movie.title,
-            genre = movie.genreIds,
-            modifier = Modifier.padding(bottom = 10.dp)
+            genre = movie.genreIds
         )
     }
 }
 
 @Composable
-fun MovieDetail(modifier: Modifier = Modifier, rating: Double, title: String, genre: List<String>) {
-    Column(modifier = modifier.padding(defaultPadding)) {
-        MovieCard {
-            Row(
-                modifier = Modifier.padding(5.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Star,
-                    contentDescription = "Rating",
-                    tint = Color.White,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(style = MaterialTheme.typography.bodySmall, text = "%.1f".format(rating))
-            }
+fun MovieRatingBadge(modifier: Modifier = Modifier, rating: Double) {
+    Surface(
+        modifier = modifier,
+        color = Color.Black.copy(alpha = 0.6f),
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.2f))
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Star,
+                contentDescription = "Rating",
+                tint = Color(0xFFFFC107),
+                modifier = Modifier.size(14.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "%.1f".format(rating),
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
         }
-        Spacer(modifier = Modifier.height(4.dp))
+    }
+}
+
+@Composable
+fun MovieDetail(modifier: Modifier = Modifier, title: String, genre: List<String>) {
+    Column(
+        modifier = modifier.padding(horizontal = 4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Title
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .basicMarquee(),
-            color = Color.Black
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.basicMarquee()
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        MovieCard {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                genre.take(3).forEachIndexed { index, genre ->
-                    if (index > 0) {
-                        VerticalDivider(
-                            modifier = Modifier
-                                .height(12.dp),
-                            color = Color.White
-                        )
-                    }
 
-                    Text(
-                        text = genre,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .weight(1f)
-                            .basicMarquee(),
-                        maxLines = 1,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White
-                    )
-                }
-            }
-        }
+        Spacer(modifier = Modifier.height(4.dp))
+
+        // Genres
+        val genreText = genre.take(3).joinToString(separator = " | ")
+        Text(
+            text = genreText,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            modifier = Modifier.basicMarquee()
+        )
     }
 }

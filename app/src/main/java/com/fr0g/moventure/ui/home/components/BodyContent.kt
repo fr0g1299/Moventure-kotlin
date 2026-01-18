@@ -1,70 +1,85 @@
 package com.fr0g.moventure.ui.home.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.fr0g.moventure.home.domain.models.Movie
-import com.fr0g.moventure.ui.home.itemSpacing
+
 
 @Composable
 fun BodyContent(
     modifier: Modifier = Modifier,
     discoverMovies: List<Movie>,
     trendingMovies: List<Movie>,
-    onMovieClick: (id: Int) -> Unit
+    onMovieClick: (id: Int) -> Unit,
+    topContent: @Composable () -> Unit
 ) {
-    LazyColumn(modifier = modifier) {
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+    ) {
+        // Carousel
         item {
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(itemSpacing),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Discover Movies",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-                LazyRow {
-                    items(discoverMovies) {
-                        MovieCoverImage(movie = it, onMovieClick = onMovieClick)
-                    }
-                }
+            topContent()
+        }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(itemSpacing),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Trending Now",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                    )
+        // Discover
+        item {
+            SectionHeader(
+                title = "Discover Movies",
+                modifier = Modifier.padding(start = 24.dp, top = 24.dp, bottom = 16.dp)
+            )
+        }
+        item {
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(discoverMovies) { movie ->
+                    MovieCard(movie = movie, onMovieClick = onMovieClick)
                 }
-                LazyRow {
-                    items(trendingMovies) {
-                        MovieCoverImage(movie = it, onMovieClick = onMovieClick)
-                    }
+            }
+        }
+
+        // Trending
+        item {
+            SectionHeader(
+                title = "Trending Now",
+                modifier = Modifier.padding(start = 24.dp, top = 32.dp, bottom = 16.dp)
+            )
+        }
+        item {
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(trendingMovies) { movie ->
+                    MovieCard(movie = movie, onMovieClick = onMovieClick)
                 }
             }
         }
     }
+}
+
+@Composable
+fun SectionHeader(
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.headlineSmall,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onBackground,
+        modifier = modifier
+    )
 }
