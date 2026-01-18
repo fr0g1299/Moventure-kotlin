@@ -1,17 +1,17 @@
-package com.fr0g.moventure.movie.data.implementation
+package com.fr0g.moventure.home.data.implementation
 
 import com.fr0g.moventure.common.data.ApiMapper
-import com.fr0g.moventure.movie.data.remote.api.MovieApiService
-import com.fr0g.moventure.movie.data.remote.model.MovieDTO
-import com.fr0g.moventure.movie.domain.models.Movie
-import com.fr0g.moventure.movie.domain.repository.MovieRepository
+import com.fr0g.moventure.home.data.remote.api.MovieApiService
+import com.fr0g.moventure.home.data.remote.model.MovieDTO
+import com.fr0g.moventure.home.domain.models.Movie
+import com.fr0g.moventure.home.domain.repository.MovieRepository
 import com.fr0g.moventure.utils.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(
+class MovieRepositoryImpl @Inject constructor(
     private val movieApiService: MovieApiService,
     private val apiMapper: ApiMapper<List<Movie>, MovieDTO>
     ) : MovieRepository {

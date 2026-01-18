@@ -1,6 +1,6 @@
-package com.fr0g.moventure.movie.domain.repository
+package com.fr0g.moventure.home.domain.repository
 
-import com.fr0g.moventure.movie.domain.models.Movie
+import com.fr0g.moventure.home.domain.models.Movie
 import com.fr0g.moventure.utils.Response
 import kotlinx.coroutines.flow.Flow
 

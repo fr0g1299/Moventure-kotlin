@@ -1,4 +1,4 @@
-package com.fr0g.moventure.movie.domain.models
+package com.fr0g.moventure.home.domain.models
 
 data class Movie(
     val adult: Boolean,

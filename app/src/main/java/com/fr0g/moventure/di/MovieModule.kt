@@ -1,13 +1,13 @@
 package com.fr0g.moventure.di
 
 import com.fr0g.moventure.common.data.ApiMapper
-import com.fr0g.moventure.movie.data.implementation.MovieApiMapper
-import com.fr0g.moventure.movie.data.remote.api.MovieApiService
-import com.fr0g.moventure.movie.data.remote.model.MovieDTO
-import com.fr0g.moventure.movie.domain.models.Movie
-import com.fr0g.moventure.movie.domain.repository.MovieRepository
+import com.fr0g.moventure.home.data.implementation.MovieApiMapper
+import com.fr0g.moventure.home.data.remote.api.MovieApiService
+import com.fr0g.moventure.home.data.remote.model.MovieDTO
+import com.fr0g.moventure.home.domain.models.Movie
+import com.fr0g.moventure.home.domain.repository.MovieRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.fr0g.moventure.movie.data.implementation.MovieRepository as MRI
+import com.fr0g.moventure.home.data.implementation.MovieRepositoryImpl as MRI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

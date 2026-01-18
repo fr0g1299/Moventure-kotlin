@@ -14,8 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import com.fr0g.moventure.movie.domain.models.Movie
+import com.fr0g.moventure.home.domain.models.Movie
 import com.fr0g.moventure.ui.home.itemSpacing
 
 @Composable

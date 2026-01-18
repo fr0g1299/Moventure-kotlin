@@ -1,8 +1,8 @@
-package com.fr0g.moventure.movie.data.implementation
+package com.fr0g.moventure.home.data.implementation
 
 import com.fr0g.moventure.common.data.ApiMapper
-import com.fr0g.moventure.movie.data.remote.model.MovieDTO
-import com.fr0g.moventure.movie.domain.models.Movie
+import com.fr0g.moventure.home.data.remote.model.MovieDTO
+import com.fr0g.moventure.home.domain.models.Movie
 import com.fr0g.moventure.utils.GenreConstants
 
 class MovieApiMapper: ApiMapper<List<Movie>, MovieDTO>{

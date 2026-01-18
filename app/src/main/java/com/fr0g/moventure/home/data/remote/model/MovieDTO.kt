@@ -1,4 +1,4 @@
-package com.fr0g.moventure.movie.data.remote.model
+package com.fr0g.moventure.home.data.remote.model
 
 
 import kotlinx.serialization.SerialName

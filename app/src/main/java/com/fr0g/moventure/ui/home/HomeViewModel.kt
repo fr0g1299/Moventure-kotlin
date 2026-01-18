@@ -2,8 +2,8 @@ package com.fr0g.moventure.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fr0g.moventure.movie.data.implementation.MovieRepository
-import com.fr0g.moventure.movie.domain.models.Movie
+import com.fr0g.moventure.home.data.implementation.MovieRepositoryImpl
+import com.fr0g.moventure.home.domain.models.Movie
 import com.fr0g.moventure.utils.collectAndHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: MovieRepository,
+    private val repository: MovieRepositoryImpl,
 ):ViewModel() {
     private val _homeState = MutableStateFlow(HomeState())
     val homeState = _homeState.asStateFlow()
