@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
@@ -26,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.fr0g.moventure.ui.components.LoadingView
+import com.fr0g.moventure.ui.home.components.BodyContent
 import com.fr0g.moventure.ui.home.components.TopContent
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
@@ -38,7 +41,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     //homeViewModel: HomeViewModel,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    hiltViewModel: HomeViewModel = hiltViewModel(),
+    //hiltViewModel: HomeViewModel = hiltViewModel(),
     onMovieClick: (id: Int) -> Unit
 ) {
     var isAutoScrolling by remember {
@@ -79,8 +82,7 @@ fun HomeScreen(
         AnimatedVisibility(visible = !state.isLoading && state.error == null) {
             BoxWithConstraints(modifier = Modifier.fillMaxSize().statusBarsPadding()) {
                 val boxHeight = maxHeight
-                val topItemHeight = boxHeight * .45f
-                val bodyItemHeight = boxHeight * .55f
+                val bodyItemHeight = boxHeight * .54f
 
                 val cardWidth = 220.dp
 
@@ -113,7 +115,14 @@ fun HomeScreen(
                         )
                     }
                 }
+                BodyContent(
+                    modifier = Modifier.align(Alignment.BottomCenter).heightIn(max = bodyItemHeight),
+                    discoverMovies = state.discoverMovies,
+                    trendingMovies = state.trendingMovies,
+                    onMovieClick = onMovieClick
+                )
             }
         }
     }
+    LoadingView(isLoading = state.isLoading)
 }

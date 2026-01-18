@@ -1,5 +1,6 @@
 package com.fr0g.moventure.ui.home.components
 
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -57,8 +58,6 @@ fun TopContent(modifier: Modifier = Modifier, movie: Movie, onMovieClick: (id: I
             onError = { it.result.throwable.printStackTrace() }
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         MovieDetail(
             rating = movie.voteAverage,
             title = movie.title,
@@ -87,15 +86,16 @@ fun MovieDetail(modifier: Modifier = Modifier, rating: Double, title: String, ge
                 Text(style = MaterialTheme.typography.bodySmall, text = "%.1f".format(rating))
             }
         }
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = title,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            maxLines = 2,
+            modifier = Modifier
+                .basicMarquee(),
             color = Color.Black
         )
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(4.dp))
         MovieCard {
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -115,7 +115,8 @@ fun MovieDetail(modifier: Modifier = Modifier, rating: Double, title: String, ge
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .padding(5.dp)
-                            .weight(1f),
+                            .weight(1f)
+                            .basicMarquee(),
                         maxLines = 1,
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.White
