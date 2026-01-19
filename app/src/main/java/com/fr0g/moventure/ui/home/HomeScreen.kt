@@ -38,12 +38,15 @@ import kotlin.math.absoluteValue
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    onMovieClick: (id: Int) -> Unit
+    onMovieClick: (id: Int) -> Unit,
+    onMenuClick: () -> Unit
 ) {
+    val state by homeViewModel.homeState.collectAsStateWithLifecycle()
+    val bookmarkedIds by homeViewModel.bookmarkedIds.collectAsStateWithLifecycle()
+
     var isAutoScrolling by remember {
         mutableStateOf(true)
     }
-    val state by homeViewModel.homeState.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = { state.discoverMovies.size }
@@ -67,6 +70,7 @@ fun HomeScreen(
 
         }
     }
+
     Box(modifier = modifier) {
         AnimatedVisibility(visible = state.error != null) {
             Text(
@@ -81,12 +85,14 @@ fun HomeScreen(
                 discoverMovies = state.discoverMovies,
                 trendingMovies = state.trendingMovies,
                 onMovieClick = onMovieClick,
+                bookmarkedIds = bookmarkedIds,
+                onBookmarkClick = { movie -> homeViewModel.toggleBookmark(movie) },
 
                 topContent = {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp)
+                            .padding(top = 64.dp)
                     ) {
                         HorizontalPager(
                             state = pagerState,
@@ -121,6 +127,11 @@ fun HomeScreen(
                 }
             )
         }
+        HomeTopBar(
+            onMenuClick = onMenuClick,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
+
+        LoadingView(isLoading = state.isLoading)
     }
-    LoadingView(isLoading = state.isLoading)
 }

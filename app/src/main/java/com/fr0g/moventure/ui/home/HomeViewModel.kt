@@ -2,12 +2,17 @@ package com.fr0g.moventure.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fr0g.moventure.common.domain.repository.WatchlistRepository
 import com.fr0g.moventure.home.data.implementation.MovieRepositoryImpl
 import com.fr0g.moventure.home.domain.models.Movie
 import com.fr0g.moventure.utils.collectAndHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,9 +20,21 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: MovieRepositoryImpl,
+    private val watchlistRepo: WatchlistRepository
 ):ViewModel() {
     private val _homeState = MutableStateFlow(HomeState())
     val homeState = _homeState.asStateFlow()
+
+    val bookmarkedIds: StateFlow<Set<Int>> = watchlistRepo.watchlistItems
+        .map { list -> list.map { it.id }.toSet() }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
+
+    fun toggleBookmark(movie: Movie) {
+        viewModelScope.launch {
+            val isBookmarked = bookmarkedIds.value.contains(movie.id)
+            watchlistRepo.toggleWatchlist(movie, isBookmarked)
+        }
+    }
 
     init {
         fetchDiscoverMovie()

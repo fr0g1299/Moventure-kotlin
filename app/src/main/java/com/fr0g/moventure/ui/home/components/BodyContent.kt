@@ -22,7 +22,9 @@ fun BodyContent(
     discoverMovies: List<Movie>,
     trendingMovies: List<Movie>,
     onMovieClick: (id: Int) -> Unit,
-    topContent: @Composable () -> Unit
+    topContent: @Composable () -> Unit,
+    bookmarkedIds: Set<Int>,
+    onBookmarkClick: (Movie) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -45,7 +47,7 @@ fun BodyContent(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(discoverMovies) { movie ->
-                    MovieCard(movie = movie, onMovieClick = onMovieClick)
+                    MovieCard(movie = movie, onMovieClick = onMovieClick, isBookmarked = bookmarkedIds.contains(movie.id), onBookmarkClick = { onBookmarkClick(movie) })
                 }
             }
         }
@@ -63,7 +65,7 @@ fun BodyContent(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(trendingMovies) { movie ->
-                    MovieCard(movie = movie, onMovieClick = onMovieClick)
+                    MovieCard(movie = movie, onMovieClick = onMovieClick, isBookmarked = bookmarkedIds.contains(movie.id), onBookmarkClick = { onBookmarkClick(movie) })
                 }
             }
         }

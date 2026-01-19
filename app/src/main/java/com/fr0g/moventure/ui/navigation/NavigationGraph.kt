@@ -15,11 +15,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.fr0g.moventure.ui.detail.DetailScreen
 import com.fr0g.moventure.ui.home.HomeScreen
+import com.fr0g.moventure.ui.watchlist.WatchlistScreen
 
 @Composable
 fun NavigationGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    onOpenDrawer: () -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -38,6 +40,21 @@ fun NavigationGraph(
                     ) {
                         launchSingleTop = true
                     }
+                },
+                onMenuClick = onOpenDrawer
+            )
+
+        }
+
+        composable(
+            route = Route.WatchlistScreen().route,
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() }
+        ) {
+            WatchlistScreen(
+                onNavigateUp = { navController.navigateUp() },
+                onMovieClick = { id ->
+                    navController.navigate(Route.FilmScreen().getRouteWithArgs(id))
                 }
             )
         }

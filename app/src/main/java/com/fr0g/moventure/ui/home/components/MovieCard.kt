@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -31,7 +32,9 @@ import com.fr0g.moventure.home.domain.models.Movie
 fun MovieCard(
     modifier: Modifier = Modifier,
     movie: Movie,
-    onMovieClick: (Int) -> Unit
+    isBookmarked: Boolean,
+    onMovieClick: (Int) -> Unit,
+    onBookmarkClick: () -> Unit,
 ) {
     val imgRequest = ImageRequest.Builder(LocalContext.current)
         .data("https://image.tmdb.org/t/p/w500/${movie.posterPath}")
@@ -65,11 +68,11 @@ fun MovieCard(
                         color = Color.Black.copy(alpha = 0.5f),
                         shape = CircleShape
                     )
-                    .clickable { TODO() },
+                    .clickable { onBookmarkClick() },
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.Bookmark,
+                    imageVector = if (isBookmarked) Icons.Default.Bookmark else Icons.Outlined.BookmarkBorder,
                     contentDescription = "Bookmark",
                     tint = Color.White,
                     modifier = Modifier.size(18.dp)

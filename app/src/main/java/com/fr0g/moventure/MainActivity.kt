@@ -4,14 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
+import com.fr0g.moventure.ui.MainScreen
 import com.fr0g.moventure.ui.MoventureTheme
-import com.fr0g.moventure.ui.navigation.NavigationGraph
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,16 +15,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MoventureTheme {
-                App()
+                MainScreen()
             }
-        }
-    }
-
-    @Composable
-    fun App() {
-        val navController = rememberNavController()
-        Scaffold(modifier = Modifier.fillMaxSize()) {
-            NavigationGraph(navController = navController, modifier = Modifier.padding(it))
         }
     }
 }
