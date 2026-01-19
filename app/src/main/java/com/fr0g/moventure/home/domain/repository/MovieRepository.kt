@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface MovieRepository {
     fun fetchDiscoverMovie():Flow<Response<List<Movie>>>
     fun fetchTrendingMovie():Flow<Response<List<Movie>>>
+    fun searchMovies(query: String):Flow<Response<List<Movie>>>
 }

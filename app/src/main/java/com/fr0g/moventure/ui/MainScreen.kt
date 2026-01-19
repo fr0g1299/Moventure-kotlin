@@ -10,8 +10,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.fr0g.moventure.ui.components.AppNavigationDrawer
-import com.fr0g.moventure.ui.navigation.NavigationGraph
-import com.fr0g.moventure.ui.navigation.Route
+import com.fr0g.moventure.navigation.NavigationGraph
+import com.fr0g.moventure.navigation.Route
 import kotlinx.coroutines.launch
 
 @Composable

@@ -14,7 +14,7 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(
     private val movieApiService: MovieApiService,
     private val apiMapper: ApiMapper<List<Movie>, MovieDTO>
-    ) : MovieRepository {
+) : MovieRepository {
 
     override fun fetchDiscoverMovie(): Flow<Response<List<Movie>>> = flow {
         emit(Response.Loading())
@@ -29,6 +29,16 @@ class MovieRepositoryImpl @Inject constructor(
     override fun fetchTrendingMovie(): Flow<Response<List<Movie>>> = flow {
         emit(Response.Loading())
         val movieDTO = movieApiService.fetchTrendingMovie()
+        apiMapper.mapToDomain(movieDTO).apply {
+            emit(Response.Success(this))
+        }
+    }.catch { e ->
+        emit(Response.Error(e))
+    }
+
+    override fun searchMovies(query: String): Flow<Response<List<Movie>>> = flow {
+        emit(Response.Loading())
+        val movieDTO = movieApiService.searchMovies(query = query)
         apiMapper.mapToDomain(movieDTO).apply {
             emit(Response.Success(this))
         }

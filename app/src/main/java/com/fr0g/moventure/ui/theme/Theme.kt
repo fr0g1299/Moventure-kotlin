@@ -1,4 +1,4 @@
-package com.fr0g.moventure.ui
+package com.fr0g.moventure.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

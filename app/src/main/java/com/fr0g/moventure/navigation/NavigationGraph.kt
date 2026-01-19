@@ -1,4 +1,4 @@
-package com.fr0g.moventure.ui.navigation
+package com.fr0g.moventure.navigation
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.fr0g.moventure.ui.detail.DetailScreen
 import com.fr0g.moventure.ui.home.HomeScreen
+import com.fr0g.moventure.ui.search.SearchScreen
 import com.fr0g.moventure.ui.watchlist.WatchlistScreen
 
 @Composable
@@ -36,12 +37,15 @@ fun NavigationGraph(
             HomeScreen(
                 onMovieClick = {
                     navController.navigate(
-                        Route.FilmScreen().getRouteWithArgs(id = it)
+                        Route.DetailScreen().getRouteWithArgs(id = it)
                     ) {
                         launchSingleTop = true
                     }
                 },
-                onMenuClick = onOpenDrawer
+                onMenuClick = onOpenDrawer,
+                onSearchClick = {
+                    navController.navigate(Route.SearchScreen().route)
+                }
             )
 
         }
@@ -54,13 +58,22 @@ fun NavigationGraph(
             WatchlistScreen(
                 onNavigateUp = { navController.navigateUp() },
                 onMovieClick = { id ->
-                    navController.navigate(Route.FilmScreen().getRouteWithArgs(id))
+                    navController.navigate(Route.DetailScreen().getRouteWithArgs(id))
+                }
+            )
+        }
+
+        composable(Route.SearchScreen().route) {
+            SearchScreen(
+                onNavigateUp = { navController.navigateUp() },
+                onMovieClick = { id ->
+                    navController.navigate(Route.DetailScreen().getRouteWithArgs(id))
                 }
             )
         }
 
         composable(
-            route = Route.FilmScreen().routeWithArgs,
+            route = Route.DetailScreen().routeWithArgs,
             arguments = listOf(navArgument(name = "id") { type = NavType.IntType })
         ) {
             DetailScreen(
@@ -74,7 +87,7 @@ fun NavigationGraph(
                 },
                 onMovieClick = {
                     navController.navigate(
-                        Route.FilmScreen().getRouteWithArgs(id = it)
+                        Route.DetailScreen().getRouteWithArgs(id = it)
                     )
                 },
             )

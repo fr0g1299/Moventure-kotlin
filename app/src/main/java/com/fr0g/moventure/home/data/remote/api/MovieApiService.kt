@@ -16,4 +16,10 @@ interface MovieApiService {
     suspend fun fetchTrendingMovie(
         @Query("api_key") apiKey: String = BuildConfig.apiKey
     ): MovieDTO
+
+    @GET("search/movie")
+    suspend fun searchMovies(
+        @Query("query") query: String,
+        @Query("api_key") apiKey: String = BuildConfig.apiKey
+    ): MovieDTO
 }

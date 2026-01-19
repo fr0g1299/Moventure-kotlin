@@ -1,4 +1,4 @@
-package com.fr0g.moventure.ui.home
+package com.fr0g.moventure.ui.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -20,7 +21,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HomeTopBar(
     onMenuClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSearchClick: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -38,6 +40,18 @@ fun HomeTopBar(
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Open Menu",
+                tint = Color.White
+            )
+        }
+        // Search Button
+        IconButton(
+            onClick = onSearchClick,
+            modifier = Modifier
+                .background(Color.Black.copy(alpha = 0.4f), CircleShape)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search",
                 tint = Color.White
             )
         }

@@ -30,6 +30,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fr0g.moventure.ui.components.LoadingView
 import com.fr0g.moventure.ui.home.components.BodyContent
+import com.fr0g.moventure.ui.home.components.HomeTopBar
 import com.fr0g.moventure.ui.home.components.TopContent
 import kotlinx.coroutines.delay
 import kotlin.math.absoluteValue
@@ -39,7 +40,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel(),
     onMovieClick: (id: Int) -> Unit,
-    onMenuClick: () -> Unit
+    onMenuClick: () -> Unit,
+    onSearchClick: () -> Unit
 ) {
     val state by homeViewModel.homeState.collectAsStateWithLifecycle()
     val bookmarkedIds by homeViewModel.bookmarkedIds.collectAsStateWithLifecycle()
@@ -129,6 +131,7 @@ fun HomeScreen(
         }
         HomeTopBar(
             onMenuClick = onMenuClick,
+            onSearchClick = onSearchClick,
             modifier = Modifier.align(Alignment.TopCenter)
         )
 

@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.fr0g.moventure.ui.MainScreen
-import com.fr0g.moventure.ui.MoventureTheme
+import com.fr0g.moventure.ui.theme.MoventureTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
