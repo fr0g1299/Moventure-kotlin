@@ -153,8 +153,7 @@ fun DetailBodyContent(
                 fetchMovies = fetchMovies,
                 isMovieLoading = isMovieLoading,
                 movies = movies,
-                onMovieClick = onMovieClick,
-                modifier = Modifier.padding(horizontal = 24.dp)
+                onMovieClick = onMovieClick
             )
         }
     }
@@ -176,6 +175,7 @@ fun SimilarMovies(
             text = "More like this",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 16.dp)
         )
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)

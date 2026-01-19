@@ -63,7 +63,8 @@ fun BodyContent(
         item {
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(bottom = 24.dp)
             ) {
                 items(trendingMovies) { movie ->
                     MovieCard(movie = movie, onMovieClick = onMovieClick, isBookmarked = bookmarkedIds.contains(movie.id), onBookmarkClick = { onBookmarkClick(movie) })
