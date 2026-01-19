@@ -36,14 +36,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fr0g.moventure.detail.domain.models.Detail
-import com.fr0g.moventure.home.domain.models.Movie
-import com.fr0g.moventure.ui.components.MovieCoverImage
+import com.fr0g.moventure.common.domain.models.Detail
+import com.fr0g.moventure.common.domain.models.MovieSummary
+import com.fr0g.moventure.ui.components.MovieCard
 
 @Composable
 fun DetailBodyContent(
     movieDetail: Detail,
-    movies: List<Movie>,
+    movies: List<MovieSummary>,
     isMovieLoading: Boolean,
     fetchMovies: () -> Unit,
     onMovieClick: (Int) -> Unit,
@@ -132,7 +132,10 @@ fun DetailBodyContent(
             ) {
                 InfoColumn(title = "Language", value = movieDetail.language.firstOrNull() ?: "-")
                 InfoColumn(title = "Duration", value = movieDetail.runtime)
-                InfoColumn(title = "Country", value = movieDetail.productionCountry.firstOrNull() ?: "-")
+                InfoColumn(
+                    title = "Country",
+                    value = movieDetail.productionCountry.firstOrNull() ?: "-"
+                )
             }
             Spacer(modifier = Modifier.height(32.dp))
         }
@@ -162,8 +165,8 @@ fun SimilarMovies(
     modifier: Modifier = Modifier,
     fetchMovies: () -> Unit,
     isMovieLoading: Boolean,
-    movies: List<Movie>,
-    onMovieClick: (Int) -> Unit,
+    movies: List<MovieSummary>,
+    onMovieClick: (Int) -> Unit
 ) {
     LaunchedEffect(key1 = true) {
         fetchMovies()
@@ -174,14 +177,21 @@ fun SimilarMovies(
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
         )
-        LazyRow {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             item {
                 AnimatedVisibility(visible = isMovieLoading) {
                     CircularProgressIndicator()
                 }
             }
             items(movies) {
-                MovieCoverImage(movie = it, onMovieClick = onMovieClick)
+                MovieCard(
+                    movie = it,
+                    onMovieClick = onMovieClick,
+                    showBookmark = false,
+                    isBookmarked = false,
+                    onBookmarkClick = {})
             }
         }
     }

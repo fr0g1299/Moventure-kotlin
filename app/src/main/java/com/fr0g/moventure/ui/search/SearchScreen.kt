@@ -30,7 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.fr0g.moventure.ui.home.components.MovieCard
+import com.fr0g.moventure.ui.components.MovieCard
 
 @Composable
 fun SearchScreen(
@@ -114,8 +114,9 @@ fun SearchScreen(
                         items(state.movies) { movie ->
                             MovieCard(
                                 movie = movie,
-                                isBookmarked = false, // TODO: Implement bookmarking
                                 onMovieClick = onMovieClick,
+                                showBookmark = false,
+                                isBookmarked = false,
                                 onBookmarkClick = {}
                             )
                         }

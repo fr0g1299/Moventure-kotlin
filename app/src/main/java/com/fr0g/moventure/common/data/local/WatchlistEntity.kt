@@ -2,7 +2,7 @@ package com.fr0g.moventure.common.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.fr0g.moventure.home.domain.models.Movie
+import com.fr0g.moventure.common.domain.models.MovieSummary
 
 @Entity(tableName = "watchlist")
 data class WatchlistEntity(
@@ -14,7 +14,7 @@ data class WatchlistEntity(
 )
 
 // Map domain Movie to Entity
-fun Movie.toEntity() = WatchlistEntity(
+fun MovieSummary.toEntity() = WatchlistEntity(
     id = id,
     title = title,
     posterPath = posterPath,
@@ -22,21 +22,15 @@ fun Movie.toEntity() = WatchlistEntity(
 )
 
 // Convert Entity back to UI domain Model
-fun WatchlistEntity.toDomain(): Movie {
-    return Movie(
+fun WatchlistEntity.toDomain(): MovieSummary {
+    return MovieSummary(
         id = id,
         title = title,
         posterPath = posterPath,
         voteAverage = voteAverage,
-        genreIds = emptyList(),
+        backdropPath = null,
         overview = "",
         releaseDate = "",
-        backdropPath = null,
-        adult = false,
-        originalLanguage = "en",
-        originalTitle = title,
-        popularity = 0.0,
-        video = false,
         voteCount = 0
     )
 }

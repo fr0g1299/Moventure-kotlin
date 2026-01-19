@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.fr0g.moventure.detail.domain.models.Cast
+import com.fr0g.moventure.common.domain.models.Cast
 
 @Composable
 fun ActorItem(

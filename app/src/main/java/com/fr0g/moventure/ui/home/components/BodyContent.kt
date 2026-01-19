@@ -13,18 +13,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.fr0g.moventure.home.domain.models.Movie
+import com.fr0g.moventure.common.domain.models.MovieSummary
+import com.fr0g.moventure.ui.components.MovieCard
 
 
 @Composable
 fun BodyContent(
     modifier: Modifier = Modifier,
-    discoverMovies: List<Movie>,
-    trendingMovies: List<Movie>,
+    discoverMovies: List<MovieSummary>,
+    trendingMovies: List<MovieSummary>,
     onMovieClick: (id: Int) -> Unit,
     topContent: @Composable () -> Unit,
     bookmarkedIds: Set<Int>,
-    onBookmarkClick: (Movie) -> Unit
+    onBookmarkClick: (MovieSummary) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),

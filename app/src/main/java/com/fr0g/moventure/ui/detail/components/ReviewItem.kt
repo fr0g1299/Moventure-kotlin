@@ -34,7 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.fr0g.moventure.detail.domain.models.Review
+import com.fr0g.moventure.common.domain.models.Review
 import kotlin.math.round
 
 @Composable

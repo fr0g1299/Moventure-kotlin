@@ -32,10 +32,10 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.fr0g.moventure.home.domain.models.Movie
+import com.fr0g.moventure.common.domain.models.MovieSummary
 
 @Composable
-fun TopContent(modifier: Modifier = Modifier, movie: Movie, onMovieClick: (id: Int) -> Unit) {
+fun TopContent(modifier: Modifier = Modifier, movie: MovieSummary, onMovieClick: (id: Int) -> Unit) {
     val imgRequest = ImageRequest.Builder(LocalContext.current)
         .data("https://image.tmdb.org/t/p/w500/${movie.posterPath}")
         .crossfade(true)

@@ -34,7 +34,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import com.fr0g.moventure.ui.home.components.MovieCard
+import com.fr0g.moventure.ui.components.MovieCard
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.lazy.grid.items
 

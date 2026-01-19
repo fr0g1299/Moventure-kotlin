@@ -4,9 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fr0g.moventure.common.domain.repository.WatchlistRepository
-import com.fr0g.moventure.detail.domain.models.Detail
-import com.fr0g.moventure.detail.domain.repository.DetailRepository
-import com.fr0g.moventure.home.domain.models.Movie
+import com.fr0g.moventure.common.domain.models.Detail
+import com.fr0g.moventure.common.domain.repository.DetailRepository
+import com.fr0g.moventure.common.domain.models.MovieSummary
 import com.fr0g.moventure.utils.collectAndHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,12 +35,16 @@ class DetailViewModel @Inject constructor(
     fun toggleBookmark(movie: Detail) {
         viewModelScope.launch {
             // Convert Detail to a simple Movie object for storage; Remove unnecessary fields later
-            val simpleMovie = Movie(
+            val simpleMovie = MovieSummary(
                 id = movie.id,
                 title = movie.title,
                 posterPath = movie.posterPath,
                 voteAverage = movie.voteAverage,
-                genreIds = movie.genres.map { it.id.toString() })
+                backdropPath = null,
+                overview = movie.overview,
+                releaseDate = movie.releaseDate,
+                voteCount = movie.voteCount
+            )
             watchlistRepo.toggleWatchlist(simpleMovie, isBookmarked.value)
         }
     }
@@ -103,7 +107,7 @@ class DetailViewModel @Inject constructor(
 
 data class DetailState(
     val detail: Detail? = null,
-    val movies: List<Movie> = emptyList(),
+    val movies: List<MovieSummary> = emptyList(),
     val error: String? = null,
     val isLoading: Boolean = false,
     val isMovieLoading: Boolean = false

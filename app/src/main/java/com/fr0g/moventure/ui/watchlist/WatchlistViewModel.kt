@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fr0g.moventure.common.data.local.toDomain
 import com.fr0g.moventure.common.domain.repository.WatchlistRepository
-import com.fr0g.moventure.home.domain.models.Movie
+import com.fr0g.moventure.common.domain.models.MovieSummary
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +18,7 @@ class WatchlistViewModel @Inject constructor(
     private val repository: WatchlistRepository
 ) : ViewModel() {
 
-    val watchlistState: StateFlow<List<Movie>> = repository.watchlistItems
+    val watchlistState: StateFlow<List<MovieSummary>> = repository.watchlistItems
         .map { entities ->
             entities.map { it.toDomain() }
         }
@@ -28,7 +28,7 @@ class WatchlistViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    fun removeFromWatchlist(movie: Movie) {
+    fun removeFromWatchlist(movie: MovieSummary) {
         viewModelScope.launch {
             repository.toggleWatchlist(movie, isCurrentlyBookmarked = true)
         }

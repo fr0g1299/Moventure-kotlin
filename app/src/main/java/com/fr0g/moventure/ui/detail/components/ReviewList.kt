@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.fr0g.moventure.detail.domain.models.Review
+import com.fr0g.moventure.common.domain.models.Review
 
 @Composable
 fun ReviewList(reviews: List<Review>) {

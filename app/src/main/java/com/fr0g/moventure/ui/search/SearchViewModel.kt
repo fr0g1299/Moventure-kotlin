@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fr0g.moventure.home.domain.models.Movie
-import com.fr0g.moventure.home.domain.repository.MovieRepository
+import com.fr0g.moventure.common.domain.models.MovieSummary
+import com.fr0g.moventure.common.domain.repository.MovieRepository
 import com.fr0g.moventure.utils.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor(
     sealed interface SearchUiState {
         data object Empty : SearchUiState
         data object Loading : SearchUiState
-        data class Success(val movies: List<Movie>) : SearchUiState
+        data class Success(val movies: List<MovieSummary>) : SearchUiState
         data class Error(val message: String) : SearchUiState
     }
 

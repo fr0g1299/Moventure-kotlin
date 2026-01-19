@@ -3,8 +3,8 @@ package com.fr0g.moventure.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fr0g.moventure.common.domain.repository.WatchlistRepository
-import com.fr0g.moventure.home.data.implementation.MovieRepositoryImpl
-import com.fr0g.moventure.home.domain.models.Movie
+import com.fr0g.moventure.common.domain.models.MovieSummary
+import com.fr0g.moventure.common.domain.repository.MovieRepository
 import com.fr0g.moventure.utils.collectAndHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: MovieRepositoryImpl,
+    private val repository: MovieRepository,
     private val watchlistRepo: WatchlistRepository
 ):ViewModel() {
     private val _homeState = MutableStateFlow(HomeState())
@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor(
         .map { list -> list.map { it.id }.toSet() }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet())
 
-    fun toggleBookmark(movie: Movie) {
+    fun toggleBookmark(movie: MovieSummary) {
         viewModelScope.launch {
             val isBookmarked = bookmarkedIds.value.contains(movie.id)
             watchlistRepo.toggleWatchlist(movie, isBookmarked)
@@ -83,8 +83,8 @@ class HomeViewModel @Inject constructor(
 }
 
 data class HomeState(
-    val discoverMovies:List<Movie> = emptyList(),
-    val trendingMovies:List<Movie> = emptyList(),
+    val discoverMovies: List<MovieSummary> = emptyList(),
+    val trendingMovies: List<MovieSummary> = emptyList(),
     val error: String? = null,
     val isLoading: Boolean = false
 )
