@@ -23,6 +23,8 @@ fun DetailScreen(
     onMovieClick: (Int) -> Unit,
 ) {
     val state by detailViewMode.detailState.collectAsStateWithLifecycle()
+    val isBookmarked by detailViewMode.isBookmarked.collectAsStateWithLifecycle()
+
     Box(modifier = modifier.fillMaxWidth()) {
         AnimatedVisibility(state.error != null, modifier = Modifier.align(Alignment.TopCenter)) {
             Text(
@@ -41,7 +43,11 @@ fun DetailScreen(
                         isMovieLoading = state.isLoading,
                         fetchMovies = detailViewMode::fetchSimilarMovies,
                         onMovieClick = onMovieClick,
-                        onHomeClick = onHomeClick
+                        onHomeClick = onHomeClick,
+                        isBookmarked = isBookmarked,
+                        onBookmarkClick = {
+                            state.detail?.let { detailViewMode.toggleBookmark(it) }
+                        }
                     )
                 }
             }

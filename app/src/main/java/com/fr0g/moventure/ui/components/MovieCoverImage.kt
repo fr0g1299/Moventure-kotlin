@@ -1,4 +1,4 @@
-package com.fr0g.moventure.ui.home.components
+package com.fr0g.moventure.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

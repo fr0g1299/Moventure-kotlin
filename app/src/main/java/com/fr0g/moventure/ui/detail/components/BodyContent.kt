@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fr0g.moventure.detail.domain.models.Detail
 import com.fr0g.moventure.home.domain.models.Movie
-import com.fr0g.moventure.ui.home.components.MovieCoverImage
+import com.fr0g.moventure.ui.components.MovieCoverImage
 
 @Composable
 fun DetailBodyContent(
@@ -47,6 +48,8 @@ fun DetailBodyContent(
     fetchMovies: () -> Unit,
     onMovieClick: (Int) -> Unit,
     onHomeClick: () -> Unit,
+    isBookmarked: Boolean,
+    onBookmarkClick: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -99,7 +102,7 @@ fun DetailBodyContent(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Bookmark Button
-                ActionBar()
+                ActionBar(isBookmarked = isBookmarked, onBookmarkClick = onBookmarkClick)
             }
         }
 
@@ -219,8 +222,12 @@ fun InfoColumn(title: String, value: String) {
 @Composable
 fun ActionBar(
     modifier: Modifier = Modifier,
-    onBookmarkClick: () -> Unit = {}
+    isBookmarked: Boolean,
+    onBookmarkClick: () -> Unit
 ) {
+    val icon = if (isBookmarked) Icons.Default.Bookmark else Icons.Outlined.BookmarkBorder
+    val contentDescription = if (isBookmarked) "Saved" else "Watchlist"
+
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -243,8 +250,8 @@ fun ActionBar(
                     )
             ) {
                 Icon(
-                    imageVector = Icons.Default.Bookmark,
-                    contentDescription = null,
+                    imageVector = icon,
+                    contentDescription = contentDescription,
                     tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(24.dp)
                 )

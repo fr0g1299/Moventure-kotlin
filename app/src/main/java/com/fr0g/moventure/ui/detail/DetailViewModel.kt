@@ -3,13 +3,17 @@ package com.fr0g.moventure.ui.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fr0g.moventure.common.domain.repository.WatchlistRepository
 import com.fr0g.moventure.detail.domain.models.Detail
 import com.fr0g.moventure.detail.domain.repository.DetailRepository
 import com.fr0g.moventure.home.domain.models.Movie
 import com.fr0g.moventure.utils.collectAndHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,12 +21,29 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val repository: DetailRepository,
+    private val watchlistRepo: WatchlistRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _detailState = MutableStateFlow(DetailState())
     val detailState = _detailState.asStateFlow()
 
     val id: Int = savedStateHandle.get<Int>("id") ?: -1
+
+    val isBookmarked: StateFlow<Boolean> = watchlistRepo.isBookmarked(id)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    fun toggleBookmark(movie: Detail) {
+        viewModelScope.launch {
+            // Convert Detail to a simple Movie object for storage; Remove unnecessary fields later
+            val simpleMovie = Movie(
+                id = movie.id,
+                title = movie.title,
+                posterPath = movie.posterPath,
+                voteAverage = movie.voteAverage,
+                genreIds = movie.genres.map { it.id.toString() })
+            watchlistRepo.toggleWatchlist(simpleMovie, isBookmarked.value)
+        }
+    }
 
     init {
         fetchMovieDetail()
