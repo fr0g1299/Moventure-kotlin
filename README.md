@@ -69,8 +69,8 @@ app/src/main/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/fr0g1299/mongodb-project
-   cd Moventure
+   git clone https://github.com/fr0g1299/Moventure-kotlin
+   cd Moventure-kotlin
    ```
 
 2. **Open in Android Studio**
